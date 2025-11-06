@@ -24,8 +24,13 @@ def handle_events():
 def init():
     global boy
 
+    zombies = [Zombie() for i in range(4)]
+    game_world.add_objects(zombies, 1)
+
+
     grass = Grass()
     game_world.add_object(grass, 0)
+
 
     boy = Boy()
     game_world.add_object(boy, 1)
@@ -35,16 +40,20 @@ def init():
     balls = [Ball(random.randint(200, 1600), 60, 0) for _ in range(20)]
     game_world.add_objects(balls, 1)
 
+    #충돌 쌍 등록(balls 생성 후)
+    game_world.add_collision_pair('grass:ball', grass, None)
+    for ball in balls:
+        game_world.add_collision_pair('grass:ball', None, ball)
+
+    game_world.add_collision_pair('boy:ball', boy, None)
+    for ball in balls:
+        game_world.add_collision_pair('boy:ball', None, ball)
+
+
 
 def update():
     game_world.update()
-    # boy와 ball 간의 충돌 확인
-    for ball in balls.copy(): # 리스트를 복사하여 반복 (제거 시 문제 방지)
-        if game_world.collide(boy, ball):
-            print('COLLISION boy: ball')
-            boy.ball_count += 1
-            game_world.remove_object(ball) # 게임 월드에서 제거
-            balls.remove(ball) # 공 리스트에서도 제거
+    game_world.handle_collisions()
 
 
 def draw():

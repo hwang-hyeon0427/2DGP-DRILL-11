@@ -33,5 +33,8 @@ class Ball:
     def get_bb(self):
         return self.x - 10, self.y - 10, self.x + 10, self.y + 10
 
-
-
+    def handle_collision(self, group, other):
+        if group == 'boy:ball':
+            game_world.remove_collision_object(self)
+        elif group == 'grass:ball':
+            self.stopped = True
