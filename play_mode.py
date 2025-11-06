@@ -22,9 +22,9 @@ def handle_events():
             boy.handle_event(event)
 
 def init():
-    global boy
+    global boy, zombies, balls
 
-    zombies = [Zombie() for i in range(4)]
+    zombies = [Zombie() for _ in range(4)]
     game_world.add_objects(zombies, 1)
 
 
@@ -36,20 +36,22 @@ def init():
     game_world.add_object(boy, 1)
 
     # 바닥에 공 배치
-    global balls
     balls = [Ball(random.randint(200, 1600), 60, 0) for _ in range(20)]
     game_world.add_objects(balls, 1)
 
-    #충돌 쌍 등록(balls 생성 후)
+    # grass : ball
     game_world.add_collision_pair('grass:ball', grass, None)
     for ball in balls:
         game_world.add_collision_pair('grass:ball', None, ball)
 
+    # boy : ball
     game_world.add_collision_pair('boy:ball', boy, None)
     for ball in balls:
         game_world.add_collision_pair('boy:ball', None, ball)
 
-
+    # zombie : ball
+    for zombie in zombies:
+        game_world.add_collision_pair('zombie:ball', zombie, None)
 
 def update():
     game_world.update()
