@@ -39,9 +39,12 @@ def init():
 def update():
     game_world.update()
     # boy와 ball 간의 충돌 확인
-    for ball in balls:
+    for ball in balls.copy(): # 리스트를 복사하여 반복 (제거 시 문제 방지)
         if game_world.collide(boy, ball):
             print('COLLISION boy: ball')
+            boy.ball_count += 1
+            game_world.remove_object(ball) # 게임 월드에서 제거
+            balls.remove(ball) # 공 리스트에서도 제거
 
 
 def draw():
