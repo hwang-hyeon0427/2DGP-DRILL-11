@@ -168,12 +168,16 @@ class Boy:
         pass
 
     def draw(self):
-        self.state_machine.draw()
+        self.state_machine.draw() # 현재 상태
         self.font.draw(self.x-10, self.y + 50, f'{self.ball_count:02d}', (255, 255, 0))
+
 
     def fire_ball(self):
         if self.ball_count > 0:
             self.ball_count -= 1
             ball = Ball(self.x+self.face_dir*40, self.y+100, self.face_dir * 15)
             game_world.add_object(ball, 1)
+
+    def get_bb(self):
+        return self.x - 50, self.y - 50, self.x +50, self.y +50
 

@@ -30,9 +30,18 @@ def init():
     boy = Boy()
     game_world.add_object(boy, 1)
 
+    # 바닥에 공 배치
+    global balls
+    balls = [Ball(random.randint(200, 1600), 60, 0) for _ in range(20)]
+    game_world.add_objects(balls, 1)
+
 
 def update():
     game_world.update()
+    # boy와 ball 간의 충돌 확인
+    for ball in balls:
+        if game_world.collide(boy, ball):
+            print('COLLISION boy: ball')
 
 
 def draw():
