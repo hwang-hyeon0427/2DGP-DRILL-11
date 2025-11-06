@@ -170,6 +170,7 @@ class Boy:
     def draw(self):
         self.state_machine.draw() # 현재 상태
         self.font.draw(self.x-10, self.y + 50, f'{self.ball_count:02d}', (255, 255, 0))
+        draw_rectangle(*self.get_bb())
 
 
     def fire_ball(self):
