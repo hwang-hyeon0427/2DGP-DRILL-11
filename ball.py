@@ -36,7 +36,13 @@ class Ball:
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             game_world.remove_collision_object(self)
+
         elif group == 'grass:ball':
             self.stopped = True
+
+            zombies = game_world.collision_pairs.get('zombie:ball')
+            if zombies and self in zombies[1]:
+                zombies[1].remove(self)
+
         elif group == 'zombie:ball':
             game_world.remove_collision_object(self)
